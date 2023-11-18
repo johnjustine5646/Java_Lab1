@@ -1,0 +1,98 @@
+import java.util.Scanner;
+
+public class Performance {
+    int[] marks = new int[10], repetitions = new int[10];
+    int mode, highest, least;
+
+    StudentPerformance() {
+        mode = highest = least = -1;
+        for (int i = 0; i < 10; i++) repetitions[i] = 0;
+    }
+
+    void readMarks() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter marks of 10 students:");
+        for (int i = 0; i < 10; i++) {
+            marks[i] = scanner.nextInt();
+            if (marks[i] > 100 || marks[i] < 0) {
+                System.out.println("Invalid input. Enter values between 0 and 100.");
+                break;
+            }
+        }
+    }
+
+    int highestMark() {
+        highest = marks[0];
+        for (int i = 1; i < 10; i++)
+            if (highest < marks[i]) highest = marks[i];
+        return highest;
+    }
+
+    int leastMark() {
+        least = marks[0];
+        for (int i = 1; i < 10; i++)
+            if (least > marks[i]) least = marks[i];
+        return least;
+    }
+
+    int getMode() {
+        int[] frequency = new int[10];
+        int k = 0, samples[] = new int[10];
+        for (int i = 0; i < 10; i++) samples[i] = marks[i];
+
+        for (int i = 0; i <= 9; i++)
+            for (int j = i + 1; j <= 9; j++)
+                if (samples[i] == samples[j] && samples[i] != -1) {
+                    repetitions[k] = samples[i];
+                    frequency[k]++;
+                    samples[j] = -1;
+                }
+
+        int maxFrequency = frequency[0], modeIndex = 0;
+        for (int i = 0; i < 10; i++)
+            if (frequency[i] > maxFrequency) {
+                maxFrequency = frequency[i];
+                modeIndex = i;
+            }
+
+        if (maxFrequency == 0) return -1;
+        mode = repetitions[modeIndex];
+        return mode;
+    }
+
+    int getFrequencyAtMode() {
+        int k = 0;
+        if (mode == -1) mode = getMode();
+        if (mode == -1) return -1;
+        else {
+            for (int i = 0; i < 10; i++)
+                if (mode == marks[i]) k++;
+            return k;
+        }
+    }
+
+    void display() {
+        for (int i = 0; i < 10; i++) System.out.println(marks[i]);
+    }
+
+    public static void main(String args[]) {
+        StudentPerformance studentPerformance = new StudentPerformance();
+        Scanner scanner = new Scanner(System.in);
+        int choice = 0;
+        do {
+            System.out.println("Menu\n1.Enter details\n2.Mode\n3.Mode Frequency\n4.Highest Mark\n5.Least Mark\n6.Display\n7.Exit");
+            System.out.println("Enter your choice:");
+            choice = scanner.nextInt();
+            switch (choice) {
+                case 1: studentPerformance.readMarks(); break;
+                case 2: int S = studentPerformance.getMode(); if (S == -1) System.out.println("No Mode!"); else System.out.println("Mode: " + S); break;
+                case 3: S = studentPerformance.getFrequencyAtMode(); if (S == -1) System.out.println("No Mode!"); else System.out.println("Freq of Mode: " + S); break;
+                case 4: System.out.println("Highest Mark: " + studentPerformance.highestMark()); break;
+                case 5: System.out.println("Least Mark: " + studentPerformance.leastMark()); break;
+                case 6: studentPerformance.display(); break;
+                case 7: System.out.println("Exiting!"); System.exit(0);
+                default: System.out.println("Invalid option!"); break;
+            }
+        } while (choice != 7);
+    }
+}
