@@ -43,7 +43,7 @@ public class AlphabetWarGame {
         int rcount = 0;
         int i = 0;
         while (i < left.length()) {
-            if (left.charAt(i) == 'w' || left.charAt(i) == 'w') lcount += strengths[0];
+            if (left.charAt(i) == 'w' || left.charAt(i) == 'W') lcount += strengths[0];
             else if (left.charAt(i) == 'p' || left.charAt(i) == 'P') lcount += strengths[1];
             else if (left.charAt(i) == 'b' || left.charAt(i) == 'B') lcount += strengths[2];
             else if (left.charAt(i) == 's' || left.charAt(i) == 'S') lcount += strengths[3];
